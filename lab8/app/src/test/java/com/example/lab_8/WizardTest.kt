@@ -7,11 +7,13 @@ import org.junit.Test
 
 class WizardTest {
     private lateinit var evilWizard: Wizard
+    private lateinit var newWizard: Wizard
 
     // Set up a new wizard before every single test
     @Before
     fun setUp() {
         evilWizard = Wizard("Evil Wizard", 30, 10)
+        newWizard = Wizard("New Wizard", 3, 1)
     }
 
     @Test
@@ -45,5 +47,17 @@ class WizardTest {
         evilWizard.restoreMana(40) // 30 + 40 = 70, so mana should be set to 70
 
         assertEquals(70, evilWizard.mana)
+    }
+
+    @Test
+    fun train_notEnoughMana() {
+        newWizard.train() // default mana = 3, not enough to train
+        assertEquals(1, newWizard.spellPower)
+    }
+    @Test
+    fun train_enoughMana() {
+        newWizard.restoreMana(10) // 3 + 10 = 13 mana, enough to train
+        newWizard.train()
+        assertEquals(2, newWizard.spellPower)
     }
 }
